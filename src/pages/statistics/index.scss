@@ -1,0 +1,126 @@
+.statistics-page {
+  min-height: 100vh;
+  background: #F0F2F5;
+  display: flex;
+  flex-direction: column;
+
+  .time-selector {
+    padding: 20px 32px;
+    background: #FFFFFF;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 24px 32px;
+    background: linear-gradient(180deg, #FFFFFF 0%, #F0F2F5 100%);
+
+    .stat-card {
+      background: #FFFFFF;
+      border-radius: 20px;
+      padding: 28px 20px;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+
+      .stat-value {
+        font-size: 48px;
+        font-weight: 800;
+        line-height: 1.2;
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .stat-label {
+        font-size: 26px;
+        color: #9E9E9E;
+        font-weight: 400;
+      }
+    }
+  }
+
+  .charts-container {
+    flex: 1;
+    padding: 0 32px 32px;
+
+    .chart-card {
+      margin-bottom: 24px;
+      border-radius: 20px;
+      overflow: hidden;
+
+      :deep(.at-card__header) {
+        padding: 28px 32px;
+
+        .at-card__header-title {
+          font-size: 32px;
+          font-weight: 700;
+          color: #1A1A1A;
+        }
+      }
+
+      :deep(.at-card__content) {
+        padding: 24px 32px 32px;
+      }
+    }
+
+    .trend-canvas,
+    .radar-canvas {
+      width: 100%;
+    }
+
+    // 热力图样式
+    .heatmap-legend {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-bottom: 20px;
+
+      .legend-text {
+        font-size: 22px;
+        color: #9E9E9E;
+      }
+
+      .legend-dot {
+        width: 24px;
+        height: 24px;
+        border-radius: 4px;
+      }
+    }
+
+    .heatmap-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+
+      .heatmap-cell {
+        aspect-ratio: 1;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 72px;
+
+        .heatmap-day {
+          font-size: 20px;
+          color: rgba(255, 255, 255, 0.9);
+          font-weight: 500;
+        }
+
+        .heatmap-score {
+          font-size: 18px;
+          color: rgba(255, 255, 255, 0.7);
+          margin-top: 2px;
+        }
+
+        &[style*="#ECEFF1"] {
+          .heatmap-day {
+            color: #9E9E9E;
+          }
+        }
+      }
+    }
+  }
+}

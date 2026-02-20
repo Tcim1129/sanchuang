@@ -1,0 +1,18 @@
+{
+  "miniprogramRoot": "dist/",
+  "projectname": "qinji-mini",
+  "description": "亲健 - 青年亲密关系健康管理小程序",
+  "appid": "wx058aa6f57c35a917",
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "enhance": true,
+    "compileHotReLoad": false,
+    "postcss": false,
+    "minified": false,
+    "bundle": false,
+    "coverView": true
+  },
+  "compileType": "miniprogram",
+  "condition": {}
+}

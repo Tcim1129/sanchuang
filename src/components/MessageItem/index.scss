@@ -1,0 +1,162 @@
+/* ================================
+   消息气泡组件样式 - 优化版
+   ================================ */
+
+.message-item {
+  display: flex;
+  padding: 14px 24px;
+  margin-bottom: 8px;
+
+  &.message-user {
+    flex-direction: row-reverse;
+
+    .message-body {
+      align-items: flex-end;
+    }
+  }
+
+  &.message-ai {
+    flex-direction: row;
+
+    .message-body {
+      align-items: flex-start;
+    }
+  }
+}
+
+// ---------- 头像 ----------
+.message-avatar {
+  flex-shrink: 0;
+
+  .avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .avatar-user {
+    background: linear-gradient(135deg, #42A5F5, #1E88E5);
+    margin-left: 16px;
+  }
+
+  .avatar-ai {
+    background: linear-gradient(135deg, #43A047, #66BB6A);
+    margin-right: 16px;
+
+    .avatar-text {
+      font-size: 24px;
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: 1px;
+    }
+  }
+}
+
+// ---------- 消息体 ----------
+.message-body {
+  display: flex;
+  flex-direction: column;
+  max-width: 70%;
+}
+
+// ---------- 气泡 ----------
+.message-bubble {
+  padding: 22px 28px;
+  border-radius: 24px;
+  word-break: break-all;
+
+  .message-text {
+    font-size: 28px;
+    line-height: 1.7;
+  }
+
+  .loading-dots {
+    min-width: 160px;
+    padding: 4px 0;
+  }
+}
+
+.bubble-user {
+  background: linear-gradient(135deg, #42A5F5, #1976D2);
+  border-top-right-radius: 6px;
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.2);
+
+  .message-text {
+    color: #FFFFFF;
+  }
+}
+
+.bubble-ai {
+  background: #FFFFFF;
+  border-top-left-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+
+  .message-text {
+    color: #1A1A1A;
+  }
+}
+
+.bubble-error {
+  border: 1px solid #FFCDD2;
+  background: #FFF5F5;
+  box-shadow: 0 2px 8px rgba(239, 83, 80, 0.08);
+
+  .message-text {
+    color: #EF5350;
+  }
+}
+
+// ---------- 推荐建议 ----------
+.recommendations {
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 18px 24px;
+  margin-top: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #43A047;
+
+  .rec-title {
+    font-size: 24px;
+    color: #43A047;
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .rec-item {
+    font-size: 24px;
+    color: #555;
+    line-height: 1.8;
+    display: block;
+  }
+}
+
+// ---------- 重试 ----------
+.retry-bar {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #FFF5F5;
+  border-radius: 12px;
+  border: 1px solid #FFCDD2;
+
+  .retry-text {
+    font-size: 22px;
+    color: #EF5350;
+    font-weight: 500;
+  }
+}
+
+// ---------- 时间 ----------
+.message-time {
+  font-size: 20px;
+  color: #CCCCCC;
+  margin-top: 8px;
+  font-weight: 300;
+}

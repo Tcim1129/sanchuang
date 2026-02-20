@@ -1,0 +1,52 @@
+﻿.partner-checkin-page {
+  min-height: 100vh;
+  background: #f5f6f8;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.today-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.label {
+  width: 160px;
+  color: #666;
+  font-size: 26px;
+}
+
+.value {
+  color: #222;
+  font-size: 28px;
+}
+
+.history-list {
+  max-height: 720px;
+}
+
+.history-item {
+  padding: 14px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.date {
+  display: block;
+  color: #333;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.mood,
+.result {
+  display: block;
+  color: #666;
+  font-size: 24px;
+  margin-top: 4px;
+}
+
+.empty-text {
+  color: #999;
+  font-size: 26px;
+}

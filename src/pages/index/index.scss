@@ -1,0 +1,277 @@
+/* ================================
+   首页样式 - 优化版
+   ================================ */
+
+.index-page {
+  min-height: 100vh;
+  background: #F0F2F5;
+  padding-bottom: 120px;
+}
+
+// ---------- 顶部问候 ----------
+.header-section {
+  background: linear-gradient(135deg, #43A047 0%, #66BB6A 40%, #81C784 100%);
+  padding: 56px 36px 72px;
+  border-radius: 0 0 48px 48px;
+  position: relative;
+  overflow: hidden;
+
+  // 装饰元素
+  &::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -40px;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    left: 20px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .greeting {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+
+    .greeting-text {
+      font-size: 42px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 10px;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .date-text {
+      font-size: 26px;
+      color: rgba(255, 255, 255, 0.85);
+      font-weight: 300;
+    }
+  }
+}
+
+// ---------- 健康评分卡片 ----------
+.score-card {
+  margin-top: -36px;
+  position: relative;
+  z-index: 1;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  padding: 36px;
+
+  .score-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+
+    .score-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: #1A1A1A;
+    }
+
+    .streak-badge {
+      font-size: 24px;
+      color: #FF9800;
+      background: linear-gradient(135deg, #FFF8E1, #FFF3E0);
+      padding: 8px 20px;
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+      box-shadow: 0 2px 8px rgba(255, 152, 0, 0.1);
+    }
+  }
+
+  .score-body {
+    display: flex;
+    align-items: center;
+
+    .score-circle {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 8px solid #43A047;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-right: 36px;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(67, 160, 71, 0.04) 0%, rgba(67, 160, 71, 0.01) 100%);
+
+      .score-number {
+        font-size: 56px;
+        font-weight: 800;
+        line-height: 1;
+      }
+
+      .score-unit {
+        font-size: 22px;
+        color: #9E9E9E;
+        margin-top: 4px;
+      }
+    }
+
+    .score-detail {
+      flex: 1;
+
+      .score-desc {
+        font-size: 26px;
+        color: #555;
+        margin-top: 16px;
+        line-height: 1.5;
+      }
+    }
+  }
+}
+
+// ---------- 今日打卡 ----------
+.checkin-card {
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  .checkin-content {
+    display: flex;
+    align-items: center;
+
+    .checkin-left {
+      margin-right: 24px;
+
+      .checkin-icon {
+        font-size: 60px;
+      }
+    }
+
+    .checkin-center {
+      flex: 1;
+
+      .checkin-title {
+        font-size: 30px;
+        font-weight: 600;
+        color: #1A1A1A;
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .checkin-desc {
+        font-size: 24px;
+        color: #9E9E9E;
+        display: block;
+        line-height: 1.5;
+      }
+    }
+
+    .checkin-right {
+      flex-shrink: 0;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #F5F5F5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &.checked {
+    border-left: 8px solid #43A047;
+    background: linear-gradient(135deg, #FFFFFF 0%, #F0F7F0 100%);
+
+    .checkin-title {
+      color: #43A047;
+    }
+
+    .checkin-right {
+      background: #E8F5E9;
+    }
+  }
+}
+
+// ---------- 快捷入口 ----------
+.shortcuts-section {
+  padding: 36px 28px 0;
+
+  .section-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1A1A1A;
+    margin-bottom: 28px;
+    padding-left: 8px;
+  }
+
+  .shortcuts-grid {
+    display: flex;
+    justify-content: space-between;
+
+    .shortcut-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 25%;
+
+      &:active .shortcut-icon {
+        transform: scale(0.92);
+      }
+
+      .shortcut-icon {
+        width: 100px;
+        height: 100px;
+        border-radius: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 14px;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        transition: transform 0.2s ease;
+      }
+
+      .shortcut-label {
+        font-size: 24px;
+        color: #555;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+// ---------- 健康小贴士 ----------
+.tips-card {
+  margin-top: 28px;
+  border-radius: 24px;
+  border-left: 6px solid #FF9800;
+  background: linear-gradient(135deg, #FFFFFF 0%, #FFFCF5 100%);
+
+  .tips-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #1A1A1A;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .tips-content {
+    font-size: 26px;
+    color: #666;
+    line-height: 1.8;
+  }
+}

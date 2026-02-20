@@ -1,0 +1,106 @@
+/* ================================
+   AI 咨询页样式 - 优化版
+   ================================ */
+
+.aichat-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: linear-gradient(180deg, #F0F2F5 0%, #F5F7FA 100%);
+  overflow: hidden;
+}
+
+// ---------- 消息列表 ----------
+.message-list {
+  flex: 1;
+  padding: 20px 0;
+  overflow-y: auto;
+}
+
+.message-bottom-spacer {
+  height: 24px;
+}
+
+// ---------- 快捷问题栏 ----------
+.quick-section {
+  background: rgba(255, 255, 255, 0.95);
+  border-top: 1px solid #F0F0F0;
+  padding: 14px 0;
+
+  .quick-scroll {
+    white-space: nowrap;
+  }
+
+  .quick-list {
+    display: inline-flex;
+    padding: 0 20px;
+    gap: 14px;
+
+    .quick-item {
+      display: inline-flex;
+      align-items: center;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #F0F7F0 0%, #E8F5E9 100%);
+      border-radius: 24px;
+      border: 1px solid #C8E6C9;
+      flex-shrink: 0;
+
+      .quick-text {
+        font-size: 24px;
+        color: #43A047;
+        white-space: nowrap;
+        font-weight: 500;
+      }
+
+      &:active {
+        background: #C8E6C9;
+        transform: scale(0.96);
+      }
+    }
+  }
+}
+
+// ---------- 底部输入框 ----------
+.input-section {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 16px 24px;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom));
+  border-top: 1px solid #F0F0F0;
+
+  .input-wrapper {
+    display: flex;
+    align-items: center;
+    background: #F0F2F5;
+    border-radius: 44px;
+    padding: 8px 8px 8px 32px;
+
+    .message-input {
+      flex: 1;
+      height: 68px;
+      font-size: 28px;
+      color: #1A1A1A;
+      background: transparent;
+    }
+
+    .send-btn {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #43A047, #2E7D32);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(67, 160, 71, 0.25);
+
+      &.disabled {
+        background: #E0E0E0;
+        box-shadow: none;
+      }
+
+      &:active:not(.disabled) {
+        transform: scale(0.9);
+      }
+    }
+  }
+}

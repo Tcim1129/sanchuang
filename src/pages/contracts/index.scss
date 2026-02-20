@@ -1,0 +1,94 @@
+﻿.contracts-page {
+  min-height: 100vh;
+  background: #f5f6f8;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.toolbar {
+  margin-bottom: 20px;
+}
+
+.contract-card {
+  margin-bottom: 20px;
+}
+
+.contract-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.meta-text {
+  color: #666;
+  font-size: 24px;
+}
+
+.contract-content {
+  display: block;
+  color: #333;
+  font-size: 26px;
+  margin-bottom: 8px;
+}
+
+.progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 12px;
+  border-radius: 999px;
+  background: #e6e9ee;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4caf50, #66bb6a);
+}
+
+.progress-text {
+  color: #4caf50;
+  font-size: 24px;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.empty {
+  margin-top: 120px;
+  text-align: center;
+}
+
+.empty-text {
+  color: #999;
+  font-size: 28px;
+}
+
+.form-item {
+  margin-bottom: 14px;
+}
+
+.label {
+  display: block;
+  color: #555;
+  font-size: 24px;
+  margin-bottom: 6px;
+}
+
+.input {
+  width: 100%;
+  background: #f7f8fa;
+  border-radius: 10px;
+  padding: 14px;
+  box-sizing: border-box;
+  font-size: 26px;
+}

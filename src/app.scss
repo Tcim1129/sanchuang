@@ -1,0 +1,137 @@
+/* ================================
+   亲健小程序 - 全局样式
+   ================================ */
+
+// ---------- 变量 ----------
+$color-primary: #43A047;
+$color-primary-light: #66BB6A;
+$color-primary-lighter: #A5D6A7;
+$color-primary-bg: #E8F5E9;
+$color-primary-dark: #2E7D32;
+
+$color-secondary: #FF9800;
+$color-danger: #EF5350;
+$color-warning: #FFA726;
+$color-info: #42A5F5;
+$color-purple: #AB47BC;
+
+$color-text: #1A1A1A;
+$color-text-secondary: #555555;
+$color-text-hint: #9E9E9E;
+$color-bg: #F0F2F5;
+$color-bg-white: #FFFFFF;
+$color-border: #EEEEEE;
+
+$font-size-xs: 20px;
+$font-size-sm: 24px;
+$font-size-md: 28px;
+$font-size-lg: 32px;
+$font-size-xl: 36px;
+$font-size-xxl: 44px;
+
+$spacing-xs: 8px;
+$spacing-sm: 16px;
+$spacing-md: 24px;
+$spacing-lg: 32px;
+$spacing-xl: 48px;
+
+$radius-sm: 12px;
+$radius-md: 20px;
+$radius-lg: 28px;
+$radius-round: 999px;
+
+$shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+$shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08);
+$shadow-card: 0 4px 20px rgba(0, 0, 0, 0.05);
+
+// ---------- 全局样式 ----------
+page {
+  background-color: $color-bg;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue',
+    Helvetica, 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif;
+  font-size: $font-size-md;
+  color: $color-text;
+  line-height: 1.6;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+// ---------- 工具类 ----------
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-1 { flex: 1; }
+
+// ---------- 卡片 ----------
+.card {
+  background: $color-bg-white;
+  border-radius: $radius-md;
+  padding: $spacing-lg;
+  margin: $spacing-sm $spacing-md;
+  box-shadow: $shadow-card;
+  position: relative;
+  overflow: hidden;
+}
+
+// ---------- 按钮 ----------
+.btn-primary {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-dark 100%);
+  color: #fff;
+  border: none;
+  border-radius: $radius-round;
+  padding: $spacing-sm $spacing-lg;
+  font-size: $font-size-lg;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(67, 160, 71, 0.3);
+
+  &::after { border: none; }
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+}
+
+.btn-outline {
+  background: transparent;
+  color: $color-primary;
+  border: 2px solid $color-primary;
+  border-radius: $radius-round;
+  padding: $spacing-sm $spacing-lg;
+  font-size: $font-size-md;
+  text-align: center;
+
+  &::after { border: none; }
+
+  &:active {
+    background: $color-primary-bg;
+  }
+}
+
+// 引入 Taro UI 样式
+@import '~taro-ui/dist/style/index.scss';

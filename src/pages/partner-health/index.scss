@@ -1,0 +1,51 @@
+﻿.partner-health-page {
+  min-height: 100vh;
+  background: #f5f6f8;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.overall {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+}
+
+.score {
+  color: #4caf50;
+  font-size: 80px;
+  font-weight: 700;
+}
+
+.unit {
+  color: #666;
+  font-size: 28px;
+}
+
+.metric-item {
+  margin-bottom: 18px;
+}
+
+.metric-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.metric-title {
+  color: #333;
+  font-size: 26px;
+}
+
+.metric-value {
+  color: #666;
+  font-size: 24px;
+}
+
+.suggestion {
+  color: #333;
+  font-size: 26px;
+  line-height: 1.7;
+}
