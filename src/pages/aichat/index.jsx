@@ -1,48 +1,58 @@
-import { Component } from 'react'
+﻿import { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { View, Text, Input, ScrollView } from '@tarojs/components'
-import { AtIcon, AtToast } from 'taro-ui'
+import { AtIcon } from 'taro-ui'
 import MessageItem from '../../components/MessageItem'
 import { aiApi } from '../../services'
 import './index.scss'
 
-// 快捷问题
 const QUICK_QUESTIONS = [
-  '最近睡眠不好怎么办？',
+  '最近睡眠不太好怎么办？',
   '如何缓解焦虑情绪？',
-  '推荐一些运动方式',
-  '情绪低落怎么调整？',
+  '推荐一些简单运动方式',
+  '情绪低落时怎么调整？',
   '怎么养成健康饮食习惯？',
-  '如何管理压力？'
+  '如何更好地管理压力？'
 ]
 
-export default class AIChat extends Component {
+const getTimeText = () => new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })
 
+const toUserFriendlyError = (err) => {
+  if (!err) return '网络繁忙，请稍后再试。'
+
+  const code = Number(err.code)
+  const msg = String(err.message || '')
+
+  if (code === 401) return '登录已过期，请重新登录后再试。'
+  if (code === 403) return '当前账号没有 AI 功能权限。'
+  if (code >= 500) return 'AI 服务暂时繁忙，请稍后重试。'
+  if (code === -1) return '网络连接不稳定，请检查网络后重试。'
+  if (msg) return msg
+
+  return 'AI 服务暂时不可用，请稍后再试。'
+}
+
+export default class AIChat extends Component {
   state = {
     messages: [
       {
         id: 'welcome',
         type: 'ai',
-        content: '你好！我是亲健AI健康咨询师，可以帮你解答健康相关的问题。你可以直接输入问题，或者点击下方的快捷问题开始咨询。',
-        time: new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })
+        content: '你好，我是亲健 AI 咨询师。你可以直接输入问题，或点击下方快捷问题开始。',
+        time: getTimeText()
       }
     ],
     inputValue: '',
     loading: false,
-    scrollToId: 'welcome',
-    // 提示
-    toastOpen: false,
-    toastText: ''
+    scrollToId: 'welcome'
   }
 
   messageIdCounter = 0
 
   generateId = () => {
-    this.messageIdCounter++
+    this.messageIdCounter += 1
     return `msg_${Date.now()}_${this.messageIdCounter}`
   }
-
-  // ==================== 发送消息 ====================
 
   handleInputChange = (e) => {
     this.setState({ inputValue: e.detail.value })
@@ -50,8 +60,8 @@ export default class AIChat extends Component {
 
   handleSend = () => {
     const { inputValue, loading } = this.state
-
     if (loading) return
+
     const question = inputValue.trim()
     if (!question) return
 
@@ -66,108 +76,91 @@ export default class AIChat extends Component {
   sendMessage = async (question) => {
     const userMsgId = this.generateId()
     const aiMsgId = this.generateId()
-    const currentTime = new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })
 
-    // 1. 添加用户消息
     this.setState(prev => ({
-      messages: [...prev.messages, {
-        id: userMsgId,
-        type: 'user',
-        content: question,
-        time: currentTime
-      }],
-      inputValue: '',
-      loading: true,
-      scrollToId: userMsgId
-    }))
-
-    // 2. 添加 AI "正在输入" 占位
-    setTimeout(() => {
-      this.setState(prev => ({
-        messages: [...prev.messages, {
+      messages: [
+        ...prev.messages,
+        {
+          id: userMsgId,
+          type: 'user',
+          content: question,
+          time: getTimeText()
+        },
+        {
           id: aiMsgId,
           type: 'ai',
           content: '',
           loading: true,
           time: ''
-        }],
-        scrollToId: aiMsgId
-      }))
-    }, 300)
+        }
+      ],
+      inputValue: '',
+      loading: true,
+      scrollToId: aiMsgId
+    }))
 
-    // 3. 调用后端 AI 接口
     try {
       const res = await aiApi.consult({ question })
-      const aiTime = new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })
+      const answer = res?.data?.answer || '抱歉，我暂时无法回答这个问题。'
+      const recommendations = Array.isArray(res?.data?.recommendations) ? res.data.recommendations : []
 
-      // 更新 AI 消息
       this.setState(prev => ({
         messages: prev.messages.map(msg =>
           msg.id === aiMsgId
             ? {
                 ...msg,
-                content: res.data?.answer || res.data || '抱歉，暂时无法回答这个问题。',
+                content: answer,
                 loading: false,
-                time: aiTime,
-                recommendations: res.data?.recommendations || []
+                error: false,
+                time: getTimeText(),
+                recommendations
               }
             : msg
         ),
         loading: false,
         scrollToId: aiMsgId
       }))
-
     } catch (err) {
-      console.error('AI咨询失败：', err)
+      const errorText = toUserFriendlyError(err)
 
-      // 更新为错误消息
       this.setState(prev => ({
         messages: prev.messages.map(msg =>
           msg.id === aiMsgId
             ? {
                 ...msg,
-                content: '网络繁忙，请稍后再试。你也可以重新发送消息。',
+                content: errorText,
                 loading: false,
-                time: new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }),
-                error: true
+                error: true,
+                time: getTimeText()
               }
             : msg
         ),
-        loading: false
+        loading: false,
+        scrollToId: aiMsgId
       }))
     }
   }
 
-  // ==================== 重新发送 ====================
-
   handleRetry = (messageIndex) => {
     const { messages } = this.state
-    // 找到这条错误消息前面的用户消息
-    for (let i = messageIndex - 1; i >= 0; i--) {
+
+    for (let i = messageIndex - 1; i >= 0; i -= 1) {
       if (messages[i].type === 'user') {
-        // 移除错误的 AI 消息
+        const retryQuestion = messages[i].content
         const newMessages = messages.filter((_, idx) => idx !== messageIndex)
         this.setState({ messages: newMessages }, () => {
-          this.sendMessage(messages[i].content)
+          this.sendMessage(retryQuestion)
         })
         break
       }
     }
   }
 
-  showToast = (text) => {
-    this.setState({ toastOpen: true, toastText: text })
-    setTimeout(() => this.setState({ toastOpen: false }), 2000)
-  }
-
-  // ==================== 渲染 ====================
-
   render() {
-    const { messages, inputValue, loading, scrollToId, toastOpen, toastText } = this.state
+    const { messages, inputValue, loading, scrollToId } = this.state
 
     return (
       <View className='aichat-page'>
-        {/* 消息列表 */}
         <ScrollView
           className='message-list'
           scrollY
@@ -178,30 +171,17 @@ export default class AIChat extends Component {
         >
           {messages.map((msg, index) => (
             <View key={msg.id} id={msg.id}>
-              <MessageItem
-                message={msg}
-                onRetry={() => this.handleRetry(index)}
-              />
+              <MessageItem message={msg} onRetry={() => this.handleRetry(index)} />
             </View>
           ))}
           <View className='message-bottom-spacer' />
         </ScrollView>
 
-        {/* 快捷问题栏 */}
         <View className='quick-section'>
-          <ScrollView
-            className='quick-scroll'
-            scrollX
-            enhanced
-            showScrollbar={false}
-          >
+          <ScrollView className='quick-scroll' scrollX enhanced showScrollbar={false}>
             <View className='quick-list'>
               {QUICK_QUESTIONS.map((q, index) => (
-                <View
-                  key={index}
-                  className='quick-item'
-                  onClick={() => this.handleQuickQuestion(q)}
-                >
+                <View key={index} className='quick-item' onClick={() => this.handleQuickQuestion(q)}>
                   <Text className='quick-text'>{q}</Text>
                 </View>
               ))}
@@ -209,7 +189,6 @@ export default class AIChat extends Component {
           </ScrollView>
         </View>
 
-        {/* 底部输入框 */}
         <View className='input-section'>
           <View className='input-wrapper'>
             <Input
@@ -221,10 +200,7 @@ export default class AIChat extends Component {
               onConfirm={this.handleSend}
               disabled={loading}
             />
-            <View
-              className={`send-btn ${(!inputValue.trim() || loading) ? 'disabled' : ''}`}
-              onClick={this.handleSend}
-            >
+            <View className={`send-btn ${(!inputValue.trim() || loading) ? 'disabled' : ''}`} onClick={this.handleSend}>
               <AtIcon
                 value='lightning-bolt'
                 size='22'
@@ -233,14 +209,6 @@ export default class AIChat extends Component {
             </View>
           </View>
         </View>
-
-        {/* Toast */}
-        <AtToast
-          isOpened={toastOpen}
-          text={toastText}
-          icon='close-circle'
-          duration={2000}
-        />
       </View>
     )
   }

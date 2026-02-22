@@ -1,5 +1,7 @@
 ﻿import http from './request'
 
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
 const getArray = (value) => {
   if (Array.isArray(value)) return value
   if (!value || typeof value !== 'object') return []
@@ -71,19 +73,46 @@ const normalizeQuickQuestion = (item) => {
   return item.question || item.title || item.content || item.text || ''
 }
 
+const shouldRetryConsult = (error) => {
+  const code = Number(error?.code)
+  const message = String(error?.message || '').toLowerCase()
+  return code === -1 || code >= 500 || message.includes('timeout') || message.includes('network')
+}
+
 const aiApi = {
   async consult(params) {
-    const res = await http.post('/api/ai/consult', params, { showLoading: false })
-    return {
-      ...res,
-      data: normalizeConsultData(res?.data)
+    let lastError
+
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      try {
+        const res = await http.post('/api/ai/consult', params, {
+          showLoading: false,
+          showError: false,
+          timeout: 60000
+        })
+
+        return {
+          ...res,
+          data: normalizeConsultData(res?.data)
+        }
+      } catch (error) {
+        lastError = error
+        if (attempt === 1 || !shouldRetryConsult(error)) {
+          throw error
+        }
+        await wait(600)
+      }
     }
+
+    throw lastError || new Error('AI服务不可用')
   },
 
   async getHistory(params = {}) {
     const res = await http.get('/api/ai/history', {
       page: params.page || 1,
       size: params.size || 20
+    }, {
+      showError: false
     })
 
     return {
@@ -93,7 +122,11 @@ const aiApi = {
   },
 
   async getQuickQuestions() {
-    const res = await http.get('/api/ai/questions', {}, { showLoading: false })
+    const res = await http.get('/api/ai/questions', {}, {
+      showLoading: false,
+      showError: false
+    })
+
     return {
       ...res,
       data: getArray(res?.data).map(normalizeQuickQuestion).filter(Boolean)

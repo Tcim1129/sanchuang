@@ -88,17 +88,23 @@ const responseInterceptor = (response, options) => {
   }
 
   if (statusCode === 403) {
-    Taro.showToast({ title: '没有权限访问', icon: 'none' })
+    if (options.showError !== false) {
+      Taro.showToast({ title: '没有权限访问', icon: 'none' })
+    }
     return Promise.reject({ code: 403, message: '没有权限' })
   }
 
   if (statusCode >= 500) {
-    Taro.showToast({ title: '服务器繁忙，请稍后再试', icon: 'none' })
-    return Promise.reject({ code: statusCode, message: '服务器错误' })
+    if (options.showError !== false) {
+      Taro.showToast({ title: '服务器繁忙，请稍后再试', icon: 'none' })
+    }
+    return Promise.reject({ code: statusCode, message: data?.message || '服务器错误' })
   }
 
   if (statusCode !== 200) {
-    Taro.showToast({ title: data?.message || '请求失败', icon: 'none' })
+    if (options.showError !== false) {
+      Taro.showToast({ title: data?.message || '请求失败', icon: 'none' })
+    }
     return Promise.reject({ code: statusCode, message: data?.message || '请求失败' })
   }
 
@@ -106,7 +112,7 @@ const responseInterceptor = (response, options) => {
     if (options.showError !== false) {
       Taro.showToast({ title: data.message || '操作失败', icon: 'none' })
     }
-    return Promise.reject({ code: data.code, message: data.message })
+    return Promise.reject({ code: data.code, message: data.message || '操作失败' })
   }
 
   return data
@@ -119,7 +125,8 @@ function request(options) {
     data = {},
     header = {},
     showLoading = true,
-    showError = true
+    showError = true,
+    timeout = 30000
   } = options
 
   if (!url.startsWith('http')) {
@@ -132,7 +139,8 @@ function request(options) {
     data,
     header,
     showLoading,
-    showError
+    showError,
+    timeout
   }
 
   config = requestInterceptor(config)
@@ -143,7 +151,7 @@ function request(options) {
       method: config.method,
       data: config.data,
       header: config.header,
-      timeout: 30000,
+      timeout: config.timeout,
       success: (res) => {
         try {
           const result = responseInterceptor(res, config)
@@ -157,11 +165,14 @@ function request(options) {
           decLoading()
         }
 
-        Taro.showToast({
-          title: '网络连接失败，请检查网络',
-          icon: 'none',
-          duration: 2000
-        })
+        if (config.showError !== false) {
+          Taro.showToast({
+            title: '网络连接失败，请检查网络',
+            icon: 'none',
+            duration: 2000
+          })
+        }
+
         reject({ code: -1, message: err.errMsg || '网络错误' })
       }
     })
@@ -181,4 +192,3 @@ export default {
   del,
   BASE_URL: DEFAULT_BASE_URL
 }
-
