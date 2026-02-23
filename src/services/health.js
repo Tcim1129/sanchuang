@@ -102,7 +102,7 @@ const healthApi = {
   },
 
   async getHealthScore() {
-    const res = await http.get('/api/health/score', {}, { showLoading: false })
+    const res = await http.get('/api/health/score', {}, { showLoading: false, showError: false })
     return {
       ...res,
       data: normalizeScore(res?.data)
@@ -110,7 +110,7 @@ const healthApi = {
   },
 
   async getStreakDays() {
-    const res = await http.get('/api/health/streak', {}, { showLoading: false })
+    const res = await http.get('/api/health/streak', {}, { showLoading: false, showError: false })
     return {
       ...res,
       data: normalizeStreak(res?.data)
@@ -126,7 +126,7 @@ const healthApi = {
   },
 
   async getStats() {
-    const res = await http.get('/api/health/statistics', {}, { showLoading: false })
+    const res = await http.get('/api/health/statistics', {}, { showLoading: false, showError: false })
     return {
       ...res,
       data: normalizeStats(res?.data)
@@ -135,3 +135,4 @@ const healthApi = {
 }
 
 export default healthApi
+
